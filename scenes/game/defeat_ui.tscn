@@ -1,0 +1,32 @@
+[gd_scene format=3 uid="uid://8pr1brnfd2o6"]
+
+[ext_resource type="Script" uid="uid://b0aduc5rmab3f" path="res://scripts/ui/defeat_ui.gd" id="1_n6bph"]
+
+[node name="DefeatUI" type="Control" unique_id=1398045711]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_n6bph")
+
+[node name="Panel" type="Panel" parent="." unique_id=792966286]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Label" type="Label" parent="." unique_id=591728603]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "失败！"
+
+[node name="RestartButton" type="Button" parent="." unique_id=153363614]
+layout_mode = 0
+offset_top = 60.0
+offset_right = 120.0
+offset_bottom = 100.0
+text = "重新开始"
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cqkmy01237fef"
+
+[deps]
+
+files=["res://data/BodyPart.Name.translation", "res://data/BodyPart.Position.translation", "res://data/BodyPart.IconKey.translation", "res://data/BodyPart.TeamID.translation"]
+
+source_file="res://data/BodyPart.csv"
+dest_files=["res://data/BodyPart.Name.translation", "res://data/BodyPart.Position.translation", "res://data/BodyPart.IconKey.translation", "res://data/BodyPart.TeamID.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

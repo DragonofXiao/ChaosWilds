@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://b20v6jpmtcwln"]
+
+[ext_resource type="Script" uid="uid://dalm55ekbvndl" path="res://scripts/game/player.gd" id="1_6w7gq"]
+[ext_resource type="Texture2D" uid="uid://u6e2hg2jw82i" path="res://assets/images/player/Sprite-0001.png" id="2_dd427"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dd427"]
+radius = 6.0
+
+[node name="Player" type="CharacterBody2D" unique_id=726831936 groups=["player"]]
+script = ExtResource("1_6w7gq")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1257199243]
+texture = ExtResource("2_dd427")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1063282445]
+shape = SubResource("CircleShape2D_dd427")
+
+[node name="HpBar" type="ProgressBar" parent="." unique_id=2120950356]
+offset_left = -25.0
+offset_top = -20.0
+offset_right = 25.0
+offset_bottom = -10.0
+show_percentage = false
+
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1583039714]
+position_smoothing_enabled = true

@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://c2iwygkwtysad"
+
+[deps]
+
+files=["res://data/Monster.Name.translation", "res://data/Monster.HP.translation", "res://data/Monster.Attack.translation", "res://data/Monster.Defense.translation", "res://data/Monster.Speed.translation"]
+
+source_file="res://data/Monster.csv"
+dest_files=["res://data/Monster.Name.translation", "res://data/Monster.HP.translation", "res://data/Monster.Attack.translation", "res://data/Monster.Defense.translation", "res://data/Monster.Speed.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

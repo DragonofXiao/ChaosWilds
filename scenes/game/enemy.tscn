@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://dhwl014gpmbcd"]
+
+[ext_resource type="Texture2D" uid="uid://bn01apq7d8x6v" path="res://icon.svg" id="1_1t2yy"]
+[ext_resource type="Script" uid="uid://b04k0dfsrhw88" path="res://scripts/game/enemy.gd" id="1_oo557"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_oo557"]
+radius = 6.0
+
+[node name="Enemy" type="Area2D" unique_id=1015373613]
+collision_layer = 2
+script = ExtResource("1_oo557")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=431887206]
+scale = Vector2(0.1, 0.1)
+texture = ExtResource("1_1t2yy")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=728108370]
+shape = SubResource("CircleShape2D_oo557")
+
+[node name="HpBar" type="ProgressBar" parent="." unique_id=1377087384]
+offset_left = -15.0
+offset_top = -15.0
+offset_right = 15.0
+offset_bottom = -10.0
+show_percentage = false
