@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://coey4nhlk0j3g"
+
+[deps]
+
+files=["res://data/Buff.Name.translation", "res://data/Buff.Type.translation", "res://data/Buff.PerDamage.translation", "res://data/Buff.During.translation", "res://data/Buff.SpeedDown.translation", "res://data/Buff.Stackable.translation"]
+
+source_file="res://data/Buff.csv"
+dest_files=["res://data/Buff.Name.translation", "res://data/Buff.Type.translation", "res://data/Buff.PerDamage.translation", "res://data/Buff.During.translation", "res://data/Buff.SpeedDown.translation", "res://data/Buff.Stackable.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

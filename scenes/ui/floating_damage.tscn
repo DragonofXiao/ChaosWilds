@@ -1,0 +1,10 @@
+[gd_scene format=3 uid="uid://csdmkwbadygxf"]
+
+[ext_resource type="Script" uid="uid://dlio1uondvr5i" path="res://scripts/ui/floating_damage.gd" id="1_n7iih"]
+
+[node name="FloatingDamage" type="Label" unique_id=586821709]
+theme_override_colors/font_color = Color(1, 0.26666668, 0.26666668, 1)
+text = "0"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_n7iih")

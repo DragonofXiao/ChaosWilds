@@ -1,0 +1,42 @@
+[gd_scene format=3 uid="uid://d4eih1cw2a0cx"]
+
+[ext_resource type="Script" uid="uid://be3sdftb2y0ri" path="res://scripts/ui/start_menu.gd" id="1_ces3l"]
+
+[node name="StartMenu" type="Control" unique_id=297209779]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_ces3l")
+
+[node name="Panel" type="Panel" parent="." unique_id=396831479]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Title" type="Label" parent="." unique_id=182152908]
+layout_mode = 0
+offset_left = 412.0
+offset_top = 300.0
+offset_right = 612.0
+offset_bottom = 360.0
+theme_override_font_sizes/font_size = 48
+text = "混沌世界"
+horizontal_alignment = 1
+
+[node name="StartButton" type="Button" parent="." unique_id=1523363270]
+layout_mode = 0
+offset_left = 462.0
+offset_top = 400.0
+offset_right = 562.0
+offset_bottom = 440.0
+text = "开始游戏"
+
+[node name="ExitButton" type="Button" parent="." unique_id=347927782]
+layout_mode = 0
+offset_left = 462.0
+offset_top = 460.0
+offset_right = 562.0
+offset_bottom = 500.0
+text = "退出"

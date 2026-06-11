@@ -22,7 +22,7 @@
 1. 安装 [Godot 4.x](https://godotengine.org/download)
 2. 克隆仓库：
    ```bash
-   git clone https://github.com/DragonofXiao/ChaosWilds.gits
+   git clone https://github.com/DragonofXiao/ChaosWilds
 ## 开发进度
 
 - 移动系统初步

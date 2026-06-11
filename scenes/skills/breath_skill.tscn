@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bn1f8b0kx7c64"]
+
+[ext_resource type="Script" uid="uid://ceqyocvvon7mt" path="res://scripts/skills/breath_skill.gd" id="1_chfmc"]
+
+[node name="BreathSkill" type="Node2D" unique_id=545751236]
+script = ExtResource("1_chfmc")
+skill_id = 10102
+key_name = "skill_e"

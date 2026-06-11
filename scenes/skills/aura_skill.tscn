@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://dcpyyob6kbu2a"]
+
+[ext_resource type="Script" uid="uid://cenartfwhqarm" path="res://scripts/skills/aura_skill.gd" id="1_s6k8e"]
+
+[node name="AuraSkill" type="Node2D" unique_id=465951692]
+script = ExtResource("1_s6k8e")
+skill_id = 10101
+key_name = "skill_q"

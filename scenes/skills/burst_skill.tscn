@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://bqp6uu47uuoqn"]
+
+[ext_resource type="Script" uid="uid://ceui2a64pnyg0" path="res://scripts/skills/burst_skill.gd" id="1_pdqfe"]
+
+[node name="BurstSkill" type="Node2D" unique_id=975774499]
+script = ExtResource("1_pdqfe")
+skill_id = 10103
+key_name = "skill_r"

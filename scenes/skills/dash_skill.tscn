@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://x6b6dg3xcy5a"]
+
+[ext_resource type="Script" uid="uid://bwsyk05g61el6" path="res://scripts/skills/dash_skill.gd" id="1_2lfod"]
+
+[node name="DashSkill" type="Node2D" unique_id=397379914]
+script = ExtResource("1_2lfod")
+skill_id = 10104
+key_name = "skill_space"

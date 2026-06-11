@@ -1,0 +1,108 @@
+[gd_scene format=3 uid="uid://b08baexar6n68"]
+
+[ext_resource type="Script" uid="uid://by0eur2y77kbc" path="res://scripts/ui/game_ui.gd" id="1_gwk6t"]
+[ext_resource type="PackedScene" uid="uid://cclwd4480hv1v" path="res://scenes/ui/skill_slot.tscn" id="2_xjfbv"]
+
+[node name="GameUi" type="CanvasLayer" unique_id=1931082670]
+script = ExtResource("1_gwk6t")
+
+[node name="HpPanel" type="Panel" parent="." unique_id=647041751]
+anchors_preset = -1
+anchor_left = 0.02
+anchor_top = 0.85
+anchor_right = 0.02
+anchor_bottom = 0.85
+offset_right = 300.0
+offset_bottom = 60.0
+
+[node name="HpIcon" type="Label" parent="HpPanel" unique_id=186654984]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 24
+text = "❤️"
+
+[node name="HpLabel" type="Label" parent="HpPanel" unique_id=1462125587]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 10.0
+offset_right = 150.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 20
+text = "生命值: 100/100"
+
+[node name="HpBar" type="ProgressBar" parent="HpPanel" unique_id=864410227]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 35.0
+offset_right = 280.0
+offset_bottom = 50.0
+value = 100.0
+show_percentage = false
+
+[node name="KillPanel" type="Panel" parent="." unique_id=528178380]
+anchors_preset = -1
+anchor_left = 0.72
+anchor_top = 0.85
+anchor_right = 0.72
+anchor_bottom = 0.85
+offset_right = 250.0
+offset_bottom = 60.0
+
+[node name="KillIcon" type="Label" parent="KillPanel" unique_id=1095928531]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 10.0
+offset_right = 50.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 24
+text = "🎯"
+
+[node name="KillLabel" type="Label" parent="KillPanel" unique_id=786003134]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 10.0
+offset_right = 230.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 20
+text = "击杀: 0 / 100"
+
+[node name="SkillPanel" type="Panel" parent="." unique_id=1310395425]
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.92
+anchor_right = 0.5
+anchor_bottom = 0.92
+offset_top = -40.0
+offset_right = 200.0
+offset_bottom = 40.0
+
+[node name="SkillSlot1" parent="SkillPanel" unique_id=1999949315 instance=ExtResource("2_xjfbv")]
+layout_mode = 0
+offset_left = 10.0
+offset_top = 5.0
+offset_right = 100.0
+offset_bottom = 75.0
+
+[node name="SkillSlot2" parent="SkillPanel" unique_id=729319189 instance=ExtResource("2_xjfbv")]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 5.0
+offset_right = 195.0
+offset_bottom = 75.0
+
+[node name="SkillSlot3" parent="SkillPanel" unique_id=875937075 instance=ExtResource("2_xjfbv")]
+layout_mode = 0
+offset_left = 200.0
+offset_top = 5.0
+offset_right = 290.0
+offset_bottom = 75.0
+
+[node name="SkillSlot4" parent="SkillPanel" unique_id=83528761 instance=ExtResource("2_xjfbv")]
+layout_mode = 0
+offset_left = 295.0
+offset_top = 5.0
+offset_right = 385.0
+offset_bottom = 75.0

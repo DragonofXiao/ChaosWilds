@@ -3,6 +3,7 @@ extends Node
 # 数据存储
 var body_parts: Dictionary = {}
 var skills: Dictionary = {}
+var buffs: Dictionary = {}      # ← 这一行必须有
 var monsters: Dictionary = {}
 
 # 写死的玩家部位（Demo阶段）
@@ -14,6 +15,7 @@ func _ready():
 func load_all_data():
 	load_body_parts()
 	load_skills()
+	load_buffs()
 	load_monsters()
 
 func load_body_parts():
@@ -23,7 +25,7 @@ func load_body_parts():
 		return
 	
 	var file = FileAccess.open(path, FileAccess.READ)
-	var headasers = file.get_csv_line()
+	var _headers = file.get_csv_line()
 	
 	while not file.eof_reached():
 		var line = file.get_csv_line()
@@ -49,7 +51,7 @@ func load_skills():
 		return
 	
 	var file = FileAccess.open(path, FileAccess.READ)
-	var headers = file.get_csv_line()
+	var _headers = file.get_csv_line()
 	
 	while not file.eof_reached():
 		var line = file.get_csv_line()
@@ -57,17 +59,50 @@ func load_skills():
 			continue
 		
 		var data = {
-			"skill_id": int(line[0]),
-			"part_id": int(line[1]),
-			"name": line[2],
-			"type": int(line[3]),
-			"damage": int(line[4]),
-			"cooldown": float(line[5])
+		"skill_id": int(line[0]),
+		"part_id": int(line[1]),
+		"name": line[2],
+		"type": int(line[3]),
+		"damage": int(line[4]),
+		"buff_id": int(line[5]),
+		"cooldown": float(line[6]), 
+		"duration": float(line[7]),
+		"radius": int(line[8]),
+		"range_param": line[9] if line.size() > 9 else "0"
 		}
 		skills[data["skill_id"]] = data
 	
 	file.close()
 	print("Skill: 加载 ", skills.size(), " 条记录")
+
+func load_buffs():
+	var path = "res://data/Buff.csv"
+	if not FileAccess.file_exists(path):
+		print("警告: 未找到 Buff.csv")
+		return
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	var _headers = file.get_csv_line()
+	
+	while not file.eof_reached():
+		var line = file.get_csv_line()
+		if line.size() < 7:
+			continue
+		
+		var data = {
+			"buff_id": int(line[0]),
+			"name": line[1],
+			"type": int(line[2]),
+			"per_damage": int(line[3]),
+			"during": float(line[4]),
+			"speed_down": int(line[5]),
+			"stackable": int(line[6])
+		}
+		buffs[data["buff_id"]] = data
+		print("加载Buff: ID=", data["buff_id"], " 每秒伤害=", data["per_damage"])
+	
+	file.close()
+	print("Buff: 加载 ", buffs.size(), " 条记录")
 
 func load_monsters():
 	var path = "res://data/Monster.csv"
@@ -76,7 +111,7 @@ func load_monsters():
 		return
 	
 	var file = FileAccess.open(path, FileAccess.READ)
-	var headers = file.get_csv_line()
+	var _headers = file.get_csv_line()
 	
 	while not file.eof_reached():
 		var line = file.get_csv_line()
@@ -111,3 +146,6 @@ func get_player_skill() -> Dictionary:
 		"damage": 20,
 		"cooldown": 4.0
 	}
+	
+func get_buff(buff_id: int) -> Dictionary:
+	return buffs.get(buff_id, {})

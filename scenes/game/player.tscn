@@ -2,6 +2,10 @@
 
 [ext_resource type="Script" uid="uid://dalm55ekbvndl" path="res://scripts/game/player.gd" id="1_6w7gq"]
 [ext_resource type="Texture2D" uid="uid://u6e2hg2jw82i" path="res://assets/images/player/Sprite-0001.png" id="2_dd427"]
+[ext_resource type="PackedScene" uid="uid://dcpyyob6kbu2a" path="res://scenes/skills/aura_skill.tscn" id="3_wwvfn"]
+[ext_resource type="PackedScene" uid="uid://bn1f8b0kx7c64" path="res://scenes/skills/breath_skill.tscn" id="4_t8yk2"]
+[ext_resource type="PackedScene" uid="uid://bqp6uu47uuoqn" path="res://scenes/skills/burst_skill.tscn" id="5_m5ugi"]
+[ext_resource type="PackedScene" uid="uid://x6b6dg3xcy5a" path="res://scenes/skills/dash_skill.tscn" id="6_3vq1g"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_dd427"]
 radius = 6.0
@@ -24,3 +28,11 @@ show_percentage = false
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1583039714]
 position_smoothing_enabled = true
+
+[node name="AuraSkill" parent="." unique_id=465951692 instance=ExtResource("3_wwvfn")]
+
+[node name="BreathSkill" parent="." unique_id=545751236 instance=ExtResource("4_t8yk2")]
+
+[node name="BurstSkill" parent="." unique_id=975774499 instance=ExtResource("5_m5ugi")]
+
+[node name="DashSkill" parent="." unique_id=397379914 instance=ExtResource("6_3vq1g")]

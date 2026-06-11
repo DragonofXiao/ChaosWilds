@@ -6,10 +6,10 @@ uid="uid://dmjmx17pqy4x"
 
 [deps]
 
-files=["res://data/Skill.PartID.translation", "res://data/Skill.Name.translation", "res://data/Skill.type.translation", "res://data/Skill.damage.translation", "res://data/Skill.cooldown.translation"]
+files=["res://data/Skill.PartID.translation", "res://data/Skill.Name.translation", "res://data/Skill.type.translation", "res://data/Skill.damage.translation", "res://data/Skill.BuffID.translation", "res://data/Skill.cooldown.translation", "res://data/Skill.duration.translation", "res://data/Skill.radius.translation", "res://data/Skill.range.translation"]
 
 source_file="res://data/Skill.csv"
-dest_files=["res://data/Skill.PartID.translation", "res://data/Skill.Name.translation", "res://data/Skill.type.translation", "res://data/Skill.damage.translation", "res://data/Skill.cooldown.translation"]
+dest_files=["res://data/Skill.PartID.translation", "res://data/Skill.Name.translation", "res://data/Skill.type.translation", "res://data/Skill.damage.translation", "res://data/Skill.BuffID.translation", "res://data/Skill.cooldown.translation", "res://data/Skill.duration.translation", "res://data/Skill.radius.translation", "res://data/Skill.range.translation"]
 
 [params]
 

@@ -1,2 +1,5 @@
-SkillID,PartID,Name,type,damage,cooldown
-10102,102,火焰吐息,3,20,4
+SkillID,PartID,Name,type,damage,BuffID,cooldown,duration,radius,range_param
+10101,101,灼烧光环,2,0,1,12,5,40,0
+10102,102,火焰吐息,3,20,1,4,0,0,"(40,128)"
+10103,103,熔岩爆裂,4,28,1,8,0,0,"(120,80)"
+10104,104,火焰残影,5,8,1,6,0,0,80
