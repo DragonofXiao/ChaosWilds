@@ -21,8 +21,8 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-DataManager="*uid://dsx2137bdll56"
-Localization="*uid://df70ekjsa38d6"
+DataManager="*res://scripts/autoload/data_manager.gd"
+Localization="*res://scripts/autoload/localization.gd"
 
 [display]
 
