@@ -1,0 +1,35 @@
+[gd_scene format=3 uid="uid://cphr1bj80v7jd"]
+
+[ext_resource type="Script" uid="uid://ca2tdyiegss86" path="res://scripts/ui/victory_ui.gd" id="1_4oupq"]
+
+[node name="VictoryUI" type="Control" unique_id=778916481]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_4oupq")
+
+[node name="Panel" type="Panel" parent="." unique_id=354725592]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="." unique_id=1504373496]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "胜利！"
+horizontal_alignment = 1
+
+[node name="RestartButton" type="Button" parent="." unique_id=74604529]
+layout_mode = 0
+offset_top = 60.0
+offset_right = 120.0
+offset_bottom = 114.0
+text = "重新开始"
+vertical_icon_alignment = 2
+
+[connection signal="pressed" from="RestartButton" to="." method="_on_restart_button_pressed"]

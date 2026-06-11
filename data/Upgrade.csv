@@ -1,0 +1,13 @@
+UpgradeID,GroupID,NameKey,Type,Value,TargetType
+1,1,upgrade_attack_speed_1,1,0.10,0
+2,1,upgrade_attack_speed_2,1,0.15,0
+3,1,upgrade_attack_speed_3,1,0.20,0
+4,2,upgrade_attack_damage_1,2,0.10,0
+5,2,upgrade_attack_damage_2,2,0.15,0
+6,2,upgrade_attack_damage_3,2,0.20,0
+7,3,upgrade_skill_damage_1,3,0.15,1
+8,3,upgrade_skill_damage_2,3,0.20,1
+9,3,upgrade_skill_damage_3,3,0.30,1
+10,4,upgrade_cooldown_1,4,0.15,1
+11,4,upgrade_cooldown_2,4,0.20,1
+12,4,upgrade_cooldown_3,4,0.30,1

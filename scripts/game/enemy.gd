@@ -9,6 +9,7 @@ var attack_damage: int
 var speed: float
 var player: Player
 var buffs: Dictionary = {}
+var hp_multiplier: float = 1.0
 
 @onready var sprite: Sprite2D = $Sprite2D
 @onready var hp_bar: ProgressBar = $HpBar
@@ -18,27 +19,30 @@ signal died
 func _ready():
 	var monster_data = DataManager.monsters.get(monster_id)
 	if monster_data:
-		max_hp = monster_data["hp"]
+		max_hp = int(monster_data["hp"] * hp_multiplier)
 		hp = max_hp
 		attack_damage = monster_data["attack"]
 		speed = monster_data["speed"]
 	else:
-		max_hp = 30
-		hp = 30
+		max_hp = int(30 * hp_multiplier)
+		hp = max_hp
 		attack_damage = 5
 		speed = 32.0
 	
 	update_hp_bar()
 	player = get_tree().get_first_node_in_group("player")
 	add_to_group("enemies")
-	
 	body_entered.connect(_on_body_entered)
+	
+func set_hp_multiplier(mult: float):
+	hp_multiplier = mult
 
 func _physics_process(delta):
 	if not player:
 		return
 	
 	update_buffs(delta)
+	update_burn_effect()
 	
 	var direction = (player.global_position - global_position).normalized()
 	var actual_speed = speed
@@ -83,26 +87,32 @@ func apply_buff(buff_data: Dictionary):
 func update_buffs(delta: float):
 	var to_remove = []
 	for buff_id in buffs:
-		var buff = buffs[buff_id]
-		buff["remaining"] -= delta
+		buffs[buff_id]["remaining"] -= delta
 		
-		# 造成持续伤害（灼烧类型 type == 1）
-		if buff.get("type") == 1:
-			var per_damage = buff.get("per_damage", 0)
-			# 每秒造成一次伤害
-			var last_damage_time = buff.get("last_damage_time", 0.0)
-			last_damage_time -= delta
-			if last_damage_time <= 0:
-				take_damage(per_damage)
-				buff["last_damage_time"] = 1.0
-			else:
-				buff["last_damage_time"] = last_damage_time
+		if buffs[buff_id]["type"] == 1 and buffs[buff_id]["per_damage"] > 0:
+			var last_damage_time = buffs[buff_id].get("last_damage_time", 0.0)
+			if Time.get_ticks_msec() / 1000.0 - last_damage_time >= 1.0:
+				buffs[buff_id]["last_damage_time"] = Time.get_ticks_msec() / 1000.0
+				take_damage(buffs[buff_id]["per_damage"])
 		
-		if buff["remaining"] <= 0:
+		if buffs[buff_id]["remaining"] <= 0:
 			to_remove.append(buff_id)
 	
 	for buff_id in to_remove:
 		buffs.erase(buff_id)
+
+func update_burn_effect():
+	var has_burn = false
+	for buff in buffs.values():
+		if buff["type"] == 1:
+			has_burn = true
+			break
+	
+	if has_burn:
+		var should_be_red = (Time.get_ticks_msec() / 200) % 2 == 0
+		sprite.modulate = Color(1.0, 0.3, 0.3) if should_be_red else Color.WHITE
+	else:
+		sprite.modulate = Color.WHITE
 
 func update_hp_bar():
 	if hp_bar:

@@ -49,3 +49,7 @@ func hide_indicator():
 
 func _process(delta):
 	update_cooldown(delta)
+	
+func apply_upgrades(damage_bonus: float, cooldown_bonus: float):
+	# 子类可重写此方法
+	pass

@@ -1,0 +1,27 @@
+Key,zh,en
+game_title,混沌世界,Chaos Wilds
+btn_start,开始游戏,Start Game
+btn_exit,退出,Exit
+btn_resume,继续游戏,Resume
+btn_settings,设置,Settings
+btn_menu,主菜单,Main Menu
+btn_restart,重新开始,Restart
+hp,生命值,HP
+kills,击杀,Kills
+victory,胜利！,Victory!
+defeat,失败...,Defeat...
+skill_aura,光环,Aura
+skill_breath,吐息,Breath
+skill_burst,爆裂,Burst
+skill_dash,残影,Dash
+skill_ice_aura,寒冰领域,Ice Field
+skill_ice_breath,冰锥穿刺,Ice Spike
+skill_ice_burst,霜冻爆散,Frost Burst
+skill_ice_dash,极寒滑步,Frost Slide
+setting_fullscreen,全屏,Fullscreen
+setting_quality,画质,Quality
+setting_language,语言,Language
+setting_controls,键位绑定,Key Binding
+quality_low,低,Low
+quality_medium,中,Medium
+quality_high,高,High

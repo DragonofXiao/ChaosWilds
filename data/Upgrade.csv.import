@@ -1,0 +1,19 @@
+[remap]
+
+importer="csv_translation"
+type="Translation"
+uid="uid://cmuf2wfoswx7e"
+
+[deps]
+
+files=["res://data/Upgrade.GroupID.translation", "res://data/Upgrade.NameKey.translation", "res://data/Upgrade.Type.translation", "res://data/Upgrade.Value.translation", "res://data/Upgrade.TargetType.translation"]
+
+source_file="res://data/Upgrade.csv"
+dest_files=["res://data/Upgrade.GroupID.translation", "res://data/Upgrade.NameKey.translation", "res://data/Upgrade.Type.translation", "res://data/Upgrade.Value.translation", "res://data/Upgrade.TargetType.translation"]
+
+[params]
+
+compress=1
+delimiter=0
+unescape_keys=false
+unescape_translations=true

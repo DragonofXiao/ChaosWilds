@@ -91,3 +91,8 @@ func update_cooldown(delta: float):
 	if not is_ready and is_holding:
 		is_holding = false
 		hide_indicator()
+
+func apply_upgrades(damage_bonus: float, cooldown_bonus: float):
+	# 例如修改伤害
+	if skill_data.has("damage"):
+		skill_data["damage"] = skill_data["damage"] + int(skill_data["damage"] * damage_bonus)

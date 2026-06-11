@@ -1,13 +1,13 @@
 extends Node
 
-# 数据存储
 var body_parts: Dictionary = {}
 var skills: Dictionary = {}
-var buffs: Dictionary = {}      # ← 这一行必须有
+var buffs: Dictionary = {}
 var monsters: Dictionary = {}
-
-# 写死的玩家部位（Demo阶段）
-var player_parts: Array = [101, 102]
+var upgrades: Dictionary = {}
+var upgrades_by_group: Dictionary = {}
+var locale: Dictionary = {}
+var current_team: int = 1
 
 func _ready():
 	load_all_data()
@@ -17,6 +17,8 @@ func load_all_data():
 	load_skills()
 	load_buffs()
 	load_monsters()
+	load_upgrades()
+	load_locale()
 
 func load_body_parts():
 	var path = "res://data/BodyPart.csv"
@@ -55,20 +57,20 @@ func load_skills():
 	
 	while not file.eof_reached():
 		var line = file.get_csv_line()
-		if line.size() < 6:
+		if line.size() < 10:  # 改成10列
 			continue
 		
 		var data = {
-		"skill_id": int(line[0]),
-		"part_id": int(line[1]),
-		"name": line[2],
-		"type": int(line[3]),
-		"damage": int(line[4]),
-		"buff_id": int(line[5]),
-		"cooldown": float(line[6]), 
-		"duration": float(line[7]),
-		"radius": int(line[8]),
-		"range_param": line[9] if line.size() > 9 else "0"
+			"skill_id": int(line[0]),
+			"part_id": int(line[1]),
+			"name": line[2],
+			"type": int(line[3]),
+			"damage": int(line[4]),
+			"buff_id": int(line[5]),
+			"cooldown": float(line[6]),
+			"duration": float(line[7]),
+			"radius": int(line[8]),
+			"range_param": line[9] if line.size() > 9 else "0"
 		}
 		skills[data["skill_id"]] = data
 	
@@ -78,7 +80,7 @@ func load_skills():
 func load_buffs():
 	var path = "res://data/Buff.csv"
 	if not FileAccess.file_exists(path):
-		print("警告: 未找到 Buff.csv")
+		print("警告: 未找到 ", path)
 		return
 	
 	var file = FileAccess.open(path, FileAccess.READ)
@@ -86,7 +88,7 @@ func load_buffs():
 	
 	while not file.eof_reached():
 		var line = file.get_csv_line()
-		if line.size() < 7:
+		if line.size() < 8:
 			continue
 		
 		var data = {
@@ -96,10 +98,10 @@ func load_buffs():
 			"per_damage": int(line[3]),
 			"during": float(line[4]),
 			"speed_down": int(line[5]),
-			"stackable": int(line[6])
+			"stackable": int(line[6]),
+			"color": line[7] if line.size() > 7 else "ffffff"
 		}
 		buffs[data["buff_id"]] = data
-		print("加载Buff: ID=", data["buff_id"], " 每秒伤害=", data["per_damage"])
 	
 	file.close()
 	print("Buff: 加载 ", buffs.size(), " 条记录")
@@ -131,21 +133,76 @@ func load_monsters():
 	file.close()
 	print("Monster: 加载 ", monsters.size(), " 条记录")
 
-func get_player_skill() -> Dictionary:
-	for part_id in player_parts:
-		for skill in skills.values():
-			if skill["part_id"] == part_id:
-				return skill
+func load_upgrades():
+	var path = "res://data/Upgrade.csv"
+	if not FileAccess.file_exists(path):
+		print("警告: 未找到 ", path)
+		return
 	
-	# 默认技能
-	return {
-		"skill_id": 10102,
-		"part_id": 102,
-		"name": "火焰吐息",
-		"type": 3,
-		"damage": 20,
-		"cooldown": 4.0
-	}
+	var file = FileAccess.open(path, FileAccess.READ)
+	var _headers = file.get_csv_line()
 	
+	while not file.eof_reached():
+		var line = file.get_csv_line()
+		if line.size() < 6:
+			continue
+		
+		var data = {
+			"upgrade_id": int(line[0]),
+			"group_id": int(line[1]),
+			"name_key": line[2],
+			"type": int(line[3]),
+			"value": float(line[4]),
+			"target_type": int(line[5])
+		}
+		upgrades[data["upgrade_id"]] = data
+		
+		if not upgrades_by_group.has(data["group_id"]):
+			upgrades_by_group[data["group_id"]] = []
+		upgrades_by_group[data["group_id"]].append(data)
+	
+	file.close()
+	print("Upgrade: 加载 ", upgrades.size(), " 条记录")
+
+func load_locale():
+	var path = "res://data/Locale.csv"
+	if not FileAccess.file_exists(path):
+		print("警告: 未找到 ", path)
+		return
+	
+	var file = FileAccess.open(path, FileAccess.READ)
+	var _headers = file.get_csv_line()
+	
+	while not file.eof_reached():
+		var line = file.get_csv_line()
+		if line.size() < 3:
+			continue
+		
+		var key = line[0]
+		locale[key] = {
+			"zh": line[1] if line.size() > 1 else key,
+			"en": line[2] if line.size() > 2 else key
+		}
+	
+	file.close()
+	print("Locale: 加载 ", locale.size(), " 条记录")
+
+func get_skills_by_team(team_id: int) -> Array:
+	var result = []
+	for skill in skills.values():
+		if skill.get("element", "fire") == ("fire" if team_id == 1 else "ice"):
+			result.append(skill)
+	return result
+
+func get_random_upgrade_from_group(group_id: int) -> Dictionary:
+	var group = upgrades_by_group.get(group_id, [])
+	if group.is_empty():
+		return {}
+	return group[randi() % group.size()]
+
 func get_buff(buff_id: int) -> Dictionary:
 	return buffs.get(buff_id, {})
+
+func get_text(key: String, lang: String) -> String:
+	var data = locale.get(key, {})
+	return data.get(lang, key)

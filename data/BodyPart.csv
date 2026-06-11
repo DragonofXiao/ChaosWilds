@@ -3,3 +3,7 @@ ID,Name,Position,IconKey,TeamID
 102,灼热左铠,2,body_part102,1
 103,滚烫右铠,3,body_part103,1
 104,熔火足具,4,body_part104,1
+201,冰霜之首,1,body_part201,2
+202,极寒左铠,2,body_part202,2
+203,冰冷右铠,3,body_part203,2
+204,冻结足具,4,body_part204,2

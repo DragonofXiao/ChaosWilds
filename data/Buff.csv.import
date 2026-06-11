@@ -6,10 +6,10 @@ uid="uid://coey4nhlk0j3g"
 
 [deps]
 
-files=["res://data/Buff.Name.translation", "res://data/Buff.Type.translation", "res://data/Buff.PerDamage.translation", "res://data/Buff.During.translation", "res://data/Buff.SpeedDown.translation", "res://data/Buff.Stackable.translation"]
+files=["res://data/Buff.Name.translation", "res://data/Buff.Type.translation", "res://data/Buff.PerDamage.translation", "res://data/Buff.During.translation", "res://data/Buff.SpeedDown.translation", "res://data/Buff.Stackable.translation", "res://data/Buff.Color.translation"]
 
 source_file="res://data/Buff.csv"
-dest_files=["res://data/Buff.Name.translation", "res://data/Buff.Type.translation", "res://data/Buff.PerDamage.translation", "res://data/Buff.During.translation", "res://data/Buff.SpeedDown.translation", "res://data/Buff.Stackable.translation"]
+dest_files=["res://data/Buff.Name.translation", "res://data/Buff.Type.translation", "res://data/Buff.PerDamage.translation", "res://data/Buff.During.translation", "res://data/Buff.SpeedDown.translation", "res://data/Buff.Stackable.translation", "res://data/Buff.Color.translation"]
 
 [params]
 

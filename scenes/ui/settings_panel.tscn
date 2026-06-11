@@ -1,0 +1,116 @@
+[gd_scene format=3 uid="uid://berehpw6slcw8"]
+
+[ext_resource type="Script" uid="uid://2u2vqpp8gjjc" path="res://scripts/ui/settings_panel.gd" id="1_dbor5"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ivaaw"]
+bg_color = Color(0.101960786, 0.101960786, 0.18039216, 1)
+
+[sub_resource type="FontVariation" id="FontVariation_dbor5"]
+
+[node name="SettingsPanel" type="Control" unique_id=615155560]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_dbor5")
+
+[node name="BackgroundPanel" type="Panel" parent="." unique_id=541319029]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_ivaaw")
+
+[node name="TitleLabel" type="Label" parent="." unique_id=600665658]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -20.0
+offset_top = 20.0
+offset_right = 20.0
+offset_bottom = 43.0
+grow_horizontal = 2
+theme_override_font_sizes/font_size = 32
+text = "设置"
+
+[node name="SettingsContainer" type="VBoxContainer" parent="." unique_id=1419434148]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -50.0
+offset_right = 20.0
+offset_bottom = -10.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="FullscreenRow" type="HBoxContainer" parent="SettingsContainer" unique_id=400053351]
+layout_mode = 2
+
+[node name="FullscreenLabel" type="Label" parent="SettingsContainer/FullscreenRow" unique_id=1797114902]
+custom_minimum_size = Vector2(150, 30)
+layout_mode = 2
+size_flags_vertical = 1
+text = "全屏"
+
+[node name="FullscreenCheck" type="CheckBox" parent="SettingsContainer/FullscreenRow" unique_id=575836441]
+custom_minimum_size = Vector2(50, 0)
+layout_mode = 2
+
+[node name="QualityRow" type="HBoxContainer" parent="SettingsContainer" unique_id=157396086]
+layout_mode = 2
+
+[node name="QualityLabel" type="Label" parent="SettingsContainer/QualityRow" unique_id=1187634697]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "画质"
+
+[node name="QualityOption" type="OptionButton" parent="SettingsContainer/QualityRow" unique_id=1849536685]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+item_count = 3
+popup/item_0/text = "低"
+popup/item_0/id = 0
+popup/item_1/text = "中"
+popup/item_1/id = 1
+popup/item_2/text = "高"
+popup/item_2/id = 2
+
+[node name="LanguageRow" type="HBoxContainer" parent="SettingsContainer" unique_id=1240102201]
+layout_mode = 2
+
+[node name="LanguageLabel" type="Label" parent="SettingsContainer/LanguageRow" unique_id=1511821115]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "语言"
+
+[node name="LangButton" type="Button" parent="SettingsContainer/LanguageRow" unique_id=1912857203]
+custom_minimum_size = Vector2(150, 0)
+layout_mode = 2
+text = "中文"
+
+[node name="CloseButton" type="Button" parent="." unique_id=1277056269]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -46.0
+offset_right = 80.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_fonts/font = SubResource("FontVariation_dbor5")
+theme_override_font_sizes/font_size = 20
+text = "关闭
+"

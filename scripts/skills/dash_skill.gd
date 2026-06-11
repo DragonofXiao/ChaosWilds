@@ -32,3 +32,8 @@ func use(_param = null):
 						enemy.apply_buff(buff_data)
 	
 	start_cooldown()
+
+func apply_upgrades(damage_bonus: float, cooldown_bonus: float):
+	# 例如修改伤害
+	if skill_data.has("damage"):
+		skill_data["damage"] = skill_data["damage"] + int(skill_data["damage"] * damage_bonus)

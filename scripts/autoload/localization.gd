@@ -2,44 +2,25 @@ extends Node
 
 enum Language { ZH, EN }
 
-var current_lang: Language = Language.ZH
+var current_lang: String = "zh"
 
-var texts: Dictionary = {
-	"zh": {
-		"game_title": "混沌世界",
-		"btn_start": "开始游戏",
-		"btn_exit": "退出",
-		"btn_restart": "重新开始",
-		"btn_menu": "返回菜单",
-		"hp": "生命值",
-		"victory": "胜利！",
-		"defeat": "失败...",
-		"kill_count": "击杀",
-		"skill_aura": "光环",
-		"skill_breath": "吐息",
-		"skill_burst": "爆裂",
-		"skill_dash": "残影"
-	},
-	"en": {
-		"game_title": "Chaos Wilds",
-		"btn_start": "Start Game",
-		"btn_exit": "Exit",
-		"btn_restart": "Restart",
-		"btn_menu": "Back to Menu",
-		"hp": "HP",
-		"victory": "Victory!",
-		"defeat": "Defeat...",
-		"kill_count": "Kills",
-		"skill_aura": "Aura",
-		"skill_breath": "Breath",
-		"skill_burst": "Burst",
-		"skill_dash": "Dash"
-	}
-}
+func _ready():
+	var config = ConfigFile.new()
+	if config.load("user://settings.cfg") == OK:
+		var lang_str = config.get_value("settings", "language", "zh")
+		current_lang = lang_str
 
 func t(key: String) -> String:
-	var lang_code = "zh" if current_lang == Language.ZH else "en"
-	return texts[lang_code].get(key, key)
+	return DataManager.get_text(key, current_lang)
 
-func set_language(lang: Language):
+func set_language(lang: String):
 	current_lang = lang
+	var config = ConfigFile.new()
+	config.set_value("settings", "language", current_lang)
+	config.save("user://settings.cfg")
+	
+	# 刷新所有UI文本
+	EventBus.language_changed.emit()
+
+func get_current_lang() -> String:
+	return "中文" if current_lang == "zh" else "English"

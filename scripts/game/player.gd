@@ -9,13 +9,16 @@ class_name Player
 
 var current_hp: int
 var auto_attack_timer: float = 0.0
-var skills: Dictionary = {}
+var current_skill_slots: Dictionary = {}
+var current_team: int = 1
+var upgrades: Dictionary = {
+	"attack_speed": 0.0,
+	"attack_damage": 0.0,
+	"skill_damage": {},
+	"skill_cooldown": {}
+}
 
 @onready var sprite: Sprite2D = $Sprite2D
-@onready var aura_skill: SkillBase = $AuraSkill
-@onready var breath_skill: SkillBase = $BreathSkill
-@onready var burst_skill: SkillBase = $BurstSkill
-@onready var dash_skill: SkillBase = $DashSkill
 
 signal hp_changed(current_hp, max_hp)
 signal player_died
@@ -23,18 +26,72 @@ signal player_died
 func _ready():
 	current_hp = max_hp
 	add_to_group("player")
+	load_skills_for_team(current_team)
+
+func load_skills_for_team(team_id: int):
+	# 清除旧技能
+	for skill in current_skill_slots.values():
+		if skill:
+			skill.queue_free()
+	current_skill_slots.clear()
 	
-	aura_skill.set_player(self)
-	breath_skill.set_player(self)
-	burst_skill.set_player(self)
-	dash_skill.set_player(self)
+	# 获取队伍技能
+	var team_skills = DataManager.get_skills_by_team(team_id)
+	var part_to_skill = {}
+	for skill in team_skills:
+		var part_id = skill["part_id"]
+		var part = DataManager.body_parts.get(part_id, {})
+		var position = part.get("position", 0)
+		part_to_skill[position] = skill
 	
-	skills = {
-		"q": aura_skill,
-		"e": breath_skill,
-		"r": burst_skill,
-		"space": dash_skill
+	var skill_scenes = {
+		1: preload("res://scenes/skills/aura_skill.tscn"),
+		2: preload("res://scenes/skills/breath_skill.tscn"),
+		3: preload("res://scenes/skills/burst_skill.tscn"),
+		4: preload("res://scenes/skills/dash_skill.tscn")
 	}
+	
+	var action_map = {
+		1: "skill_q",
+		2: "skill_e",
+		3: "skill_r",
+		4: "skill_space"
+	}
+	
+	for pos in range(1, 5):
+		var skill_data = part_to_skill.get(pos)
+		if skill_data:
+			var skill_scene = skill_scenes.get(pos)
+			if skill_scene:
+				var skill = skill_scene.instantiate()
+				skill.skill_id = skill_data["skill_id"]
+				skill.key_name = action_map[pos]
+				skill.set_player(self)
+				add_child(skill)
+				current_skill_slots[action_map[pos]] = skill
+	
+	# 应用升级效果
+	apply_upgrades()
+
+func apply_upgrades():
+	for skill in current_skill_slots.values():
+		var skill_id = skill.skill_id
+		var damage_bonus = upgrades.get("skill_damage", {}).get(skill_id, 0.0)
+		var cooldown_bonus = upgrades.get("skill_cooldown", {}).get(skill_id, 0.0)
+		if skill.has_method("apply_upgrades"):
+			skill.apply_upgrades(damage_bonus, cooldown_bonus)
+
+func set_upgrades(new_upgrades: Dictionary):
+	upgrades = new_upgrades
+	apply_upgrades()
+
+func get_auto_attack_damage() -> int:
+	var bonus = upgrades.get("attack_damage", 0.0)
+	return auto_attack_damage + int(auto_attack_damage * bonus)
+
+func get_auto_attack_interval() -> float:
+	var bonus = upgrades.get("attack_speed", 0.0)
+	return auto_attack_interval / (1.0 + bonus)
 
 func _physics_process(delta):
 	handle_movement(delta)
@@ -56,7 +113,7 @@ func handle_movement(delta):
 func handle_auto_attack(delta):
 	auto_attack_timer -= delta
 	if auto_attack_timer <= 0:
-		auto_attack_timer = auto_attack_interval
+		auto_attack_timer = get_auto_attack_interval()
 		fire_auto_attack()
 
 func find_nearest_enemy():
@@ -82,7 +139,7 @@ func fire_auto_attack():
 	
 	var bullet_scene = preload("res://scenes/projectiles/bullet.tscn")
 	var bullet = bullet_scene.instantiate()
-	bullet.damage = auto_attack_damage
+	bullet.damage = get_auto_attack_damage()
 	bullet.speed = bullet_speed
 	bullet.global_position = global_position
 	bullet.target = target
@@ -94,7 +151,7 @@ func fire_auto_attack():
 		get_tree().current_scene.add_child(bullet)
 
 func update_skills(delta):
-	for skill in skills.values():
+	for skill in current_skill_slots.values():
 		skill.update_cooldown(delta)
 
 func take_damage(amount: int):
@@ -113,8 +170,8 @@ func die():
 	get_tree().paused = true
 
 func get_skill_cooldown(action: String) -> Dictionary:
-	var skill = skills.get(action)
-	if skill:
+	var skill = current_skill_slots.get(action)
+	if skill and skill.has_method("get_cooldown_percent"):
 		return {
 			"percent": skill.get_cooldown_percent(),
 			"display": skill.get_cooldown_display()
