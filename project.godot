@@ -23,7 +23,10 @@ config/icon="res://icon.svg"
 
 DataManager="*res://scripts/autoload/data_manager.gd"
 Localization="*res://scripts/autoload/localization.gd"
+<<<<<<< HEAD
 EventBus="*res://scripts/autoload/event_bus"
+=======
+>>>>>>> 296e1a4540b2b251432bff7e6ae2dd60a3f43d2b
 
 [display]
 
