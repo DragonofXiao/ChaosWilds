@@ -50,3 +50,7 @@ func _process(delta):
 			var cooldown_info = player.get_skill_cooldown(action)
 			if cooldown_info:
 				update_skill_cooldown(action, cooldown_info["percent"], cooldown_info["display"])
+
+func update_floor(floor: int):
+	# 暂时不实现，或者添加一个显示层数的UI
+	print("当前层数: ", floor)

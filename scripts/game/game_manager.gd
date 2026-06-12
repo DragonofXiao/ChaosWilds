@@ -1,105 +1,159 @@
-extends Control
-class_name PauseMenu
+extends Node2D
+class_name GameManager
 
-@onready var settings_panel: Control = null
+const TARGET_KILLS: int = 100
+const SPAWN_INTERVAL: float = 3.0
+const MAX_SLIMES: int = 8
+
+var spawn_points: Array[Vector2] = [
+	Vector2(16, 16),
+	Vector2(304, 16),
+	Vector2(160, 304)
+]
+
+var kill_count: int = 0
+var spawn_timer: float = 0.0
+var current_floor: int = 1
+var is_paused: bool = false
+var upgrades: Dictionary = {
+	"attack_speed": 0.0,
+	"attack_damage": 0.0,
+	"skill_damage": {},  # skill_id -> bonus
+	"skill_cooldown": {}  # skill_id -> bonus
+}
+
+@onready var player: Player = $World/Player
+@onready var enemies_container: Node2D = $World/Enemies
+@onready var projectiles_container: Node2D = $World/Projectiles
+@onready var game_ui: GameUI = $UI/GameUI
+@onready var victory_ui: Control = $UI/VictoryUI
+@onready var defeat_ui: Control = $UI/DefeatUI
+@onready var pause_menu: Control = $UI/PauseMenu
+@onready var world: Node2D = $World
 
 func _ready():
-	# 设置根节点
-	anchor_right = 1.0
-	anchor_bottom = 1.0
-	mouse_filter = Control.MOUSE_FILTER_STOP
+	if player:
+		player.hp_changed.connect(_on_hp_changed)
+		player.player_died.connect(_on_player_died)
+		player.set_upgrades(upgrades)
 	
-	# 创建背景
-	var bg = ColorRect.new()
-	bg.name = "Background"
-	bg.color = Color(0, 0, 0, 0.7)
-	bg.anchor_right = 1.0
-	bg.anchor_bottom = 1.0
-	bg.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(bg)
+	spawn_initial_enemies()
+	update_ui()
 	
-	# 创建菜单面板
-	var panel = Panel.new()
-	panel.name = "MenuPanel"
-	panel.anchor_left = 0.5
-	panel.anchor_right = 0.5
-	panel.anchor_top = 0.5
-	panel.anchor_bottom = 0.5
-	panel.offset_left = -125
-	panel.offset_top = -160
-	panel.offset_right = 125
-	panel.offset_bottom = 160
-	panel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	add_child(panel)
-	
-	# 创建按钮容器
-	var vbox = VBoxContainer.new()
-	vbox.name = "ButtonContainer"
-	vbox.anchor_right = 1.0
-	vbox.anchor_bottom = 1.0
-	vbox.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	vbox.add_theme_constant_override("separation", 15)
-	panel.add_child(vbox)
-	
-	# 创建按钮
-	var btns = [
-		{"name": "ResumeButton", "text": "继续游戏"},
-		{"name": "SettingsButton", "text": "设置"},
-		{"name": "MenuButton", "text": "返回主界面"},
-		{"name": "ExitButton", "text": "退出游戏"}
-	]
-	
-	for btn_data in btns:
-		var btn = Button.new()
-		btn.name = btn_data["name"]
-		btn.text = btn_data["text"]
-		btn.custom_minimum_size = Vector2(200, 50)
-		btn.size = Vector2(200, 50)
-		btn.mouse_filter = Control.MOUSE_FILTER_STOP
-		btn.add_theme_font_size_override("font_size", 20)
-		vbox.add_child(btn)
-	
-	# 连接信号（使用 call_deferred 确保节点完全准备好）
-	call_deferred("_connect_signals")
+	EventBus.upgrade_selected.connect(_on_upgrade_selected)
 
-func _connect_signals():
-	var resume_btn = $MenuPanel/ButtonContainer/ResumeButton
-	var settings_btn = $MenuPanel/ButtonContainer/SettingsButton
-	var menu_btn = $MenuPanel/ButtonContainer/MenuButton
-	var exit_btn = $MenuPanel/ButtonContainer/ExitButton
+func toggle_pause():
+	get_tree().paused = !get_tree().paused
+	pause_menu.visible = get_tree().paused
+	if pause_menu:
+		pause_menu.visible = get_tree().paused
+
+func _process(delta):
+	if Input.is_action_just_pressed("pause"):
+		toggle_pause()
+		
+	if kill_count >= TARGET_KILLS:
+		return
 	
-	if resume_btn:
-		resume_btn.pressed.connect(_on_resume_pressed)
-		print("ResumeButton 信号已连接")
-	if settings_btn:
-		settings_btn.pressed.connect(_on_settings_pressed)
-		print("SettingsButton 信号已连接")
-	if menu_btn:
-		menu_btn.pressed.connect(_on_menu_pressed)
-		print("MenuButton 信号已连接")
-	if exit_btn:
-		exit_btn.pressed.connect(_on_exit_pressed)
-		print("ExitButton 信号已连接")
+	spawn_timer += delta
+	if spawn_timer >= SPAWN_INTERVAL:
+		spawn_timer = 0.0
+		if enemies_container.get_child_count() < MAX_SLIMES:
+			spawn_enemy()
+
+func spawn_initial_enemies():
+	for i in range(3):
+		spawn_enemy()
+
+func spawn_enemy():
+	var enemy_scene = preload("res://scenes/game/enemy.tscn")
+	var enemy = enemy_scene.instantiate()
 	
-	settings_panel = find_child("SettingsPanel", true, false)
+	var spawn_point = spawn_points[randi() % spawn_points.size()]
+	enemy.global_position = spawn_point
+	enemy.died.connect(_on_enemy_died)
+	
+	# 第二层血量翻倍
+	if current_floor >= 2:
+		enemy.set_hp_multiplier(2.0)
+	
+	enemies_container.add_child(enemy)
 
-func _on_resume_pressed():
-	print("继续游戏按钮被点击")
-	var game_manager = get_tree().current_scene
-	if game_manager and game_manager.has_method("resume_game"):
-		game_manager.resume_game()
+func _on_enemy_died():
+	kill_count += 1
+	update_ui()
+	
+	if kill_count >= TARGET_KILLS and enemies_container.get_child_count() == 0:
+		victory()
 
-func _on_settings_pressed():
-	print("设置按钮被点击")
-	if settings_panel:
-		settings_panel.visible = true
+func _on_hp_changed(current_hp: int, max_hp: int):
+	game_ui.update_hp(current_hp, max_hp)
 
-func _on_menu_pressed():
-	print("返回主菜单按钮被点击")
-	var game_manager = get_tree().current_scene
-	if game_manager and game_manager.has_method("return_to_menu"):
-		game_manager.return_to_menu()
+func update_ui():
+	game_ui.update_kill_count(kill_count, TARGET_KILLS)
+	game_ui.update_floor(current_floor)
 
-func _on_exit_pressed():
-	print("退出游戏按钮被点击")
-	get_tree().quit()
+func show_upgrade_panel():
+	# 从每个组随机选一个升级
+	var selected_upgrades = []
+	for group_id in range(1, 5):
+		var upgrade = DataManager.get_random_upgrade_from_group(group_id)
+		if not upgrade.is_empty():
+			selected_upgrades.append(upgrade)
+	
+	game_ui.show_upgrade_panel(selected_upgrades)
+
+func _on_upgrade_selected(upgrade_data: Dictionary):
+	var upgrade_type = upgrade_data.get("type", 0)
+	var value = upgrade_data.get("value", 0.0)
+	var target_type = upgrade_data.get("target_type", 0)
+	
+	match upgrade_type:
+		1:  # 攻速
+			upgrades["attack_speed"] += value
+		2:  # 攻击力
+			upgrades["attack_damage"] += value
+		3:  # 技能伤害
+			if player and player.current_skill_slots.size() > 0:
+				var random_skill = player.current_skill_slots.values()[randi() % player.current_skill_slots.size()]
+				var skill_id = random_skill.skill_id
+				upgrades["skill_damage"][skill_id] = upgrades["skill_damage"].get(skill_id, 0.0) + value
+		4:  # 冷却速度
+			if player and player.current_skill_slots.size() > 0:
+				var random_skill = player.current_skill_slots.values()[randi() % player.current_skill_slots.size()]
+				var skill_id = random_skill.skill_id
+				upgrades["skill_cooldown"][skill_id] = upgrades["skill_cooldown"].get(skill_id, 0.0) + value
+	
+	if player:
+		player.set_upgrades(upgrades)
+	
+	# 进入下一层
+	current_floor += 1
+	EventBus.floor_changed.emit(current_floor)
+	
+	# 重置击杀数，继续游戏
+	kill_count = 0
+	update_ui()
+	
+	# 清空剩余敌人
+	for enemy in enemies_container.get_children():
+		enemy.queue_free()
+
+func victory():
+	get_tree().paused = true
+	victory_ui.visible = true
+
+func _on_player_died():
+	get_tree().paused = true
+	defeat_ui.visible = true
+
+func restart_game():
+	get_tree().paused = false
+	get_tree().reload_current_scene()
+
+func resume_game():
+	toggle_pause()
+
+func return_to_menu():
+	get_tree().paused = false
+	get_tree().change_scene_to_file("res://scenes/start_menu/start_menu.tscn")

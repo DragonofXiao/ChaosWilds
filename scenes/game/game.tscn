@@ -5,7 +5,8 @@
 [ext_resource type="PackedScene" uid="uid://cngw5pnl2dc1g" path="res://scenes/ui/victory_ui.tscn" id="3_5i0tg"]
 [ext_resource type="PackedScene" uid="uid://b08baexar6n68" path="res://scenes/ui/game_ui.tscn" id="3_lfrn8"]
 [ext_resource type="PackedScene" uid="uid://8pr1brnfd2o6" path="res://scenes/ui/defeat_ui.tscn" id="4_bdhmt"]
-[ext_resource type="PackedScene" uid="uid://k10grkdq37dn" path="res://scenes/ui/pause_menu.tscn" id="6_bdhmt"]
+[ext_resource type="PackedScene" uid="uid://k10grkdq37dn" path="res://scenes/ui/pause_menu.tscn" id="6_5i0tg"]
+[ext_resource type="PackedScene" uid="uid://berehpw6slcw8" path="res://scenes/ui/settings_panel.tscn" id="7_bdhmt"]
 
 [node name="Game" type="Node2D" unique_id=1123289529]
 script = ExtResource("1_kelw5")
@@ -27,20 +28,28 @@ position = Vector2(160, 160)
 [node name="UI" type="CanvasLayer" parent="." unique_id=71352606]
 
 [node name="GameUI" parent="UI" unique_id=1931082670 instance=ExtResource("3_lfrn8")]
+visible = false
 
 [node name="VictoryUI" parent="UI" unique_id=778916481 instance=ExtResource("3_5i0tg")]
 visible = false
 z_index = 10
 anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
-grow_horizontal = 2
-grow_vertical = 2
 
 [node name="DefeatUI" parent="UI" unique_id=1398045711 instance=ExtResource("4_bdhmt")]
 visible = false
 
-[node name="PauseMenu" parent="UI" unique_id=987307782 instance=ExtResource("6_bdhmt")]
+[node name="PauseMenu" parent="UI" unique_id=1315793381 instance=ExtResource("6_5i0tg")]
 visible = false
+
+[node name="SettingsPanel" parent="UI/PauseMenu" unique_id=615155560 instance=ExtResource("7_bdhmt")]
+visible = false
+layout_mode = 1
+mouse_filter = 2
