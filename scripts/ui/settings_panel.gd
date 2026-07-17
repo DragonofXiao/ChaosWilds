@@ -11,10 +11,11 @@ func _ready():
 	fullscreen_check.button_pressed = DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN
 	fullscreen_check.toggled.connect(_on_fullscreen_toggled)
 	
-	# 画质（占位）
-	quality_option.add_item(Localization.t("quality_low"), 0)
-	quality_option.add_item(Localization.t("quality_medium"), 1)
-	quality_option.add_item(Localization.t("quality_high"), 2)
+	# TODO: 后续实现画质和键位绑定
+	# quality_option.add_item(Localization.t("quality_low"), 0)
+	# quality_option.add_item(Localization.t("quality_medium"), 1)
+	# quality_option.add_item(Localization.t("quality_high"), 2)
+	$SettingsContainer/QualityRow.visible = false
 	
 	# 语言
 	update_lang_button()

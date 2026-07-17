@@ -1,0 +1,60 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8upgrade_card001"]
+
+[ext_resource type="Script" path="res://scripts/ui/upgrade_card.gd" id="1_card"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_card"]
+bg_color = Color(0.15, 0.15, 0.25, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.3, 0.3, 0.45, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+
+[node name="UpgradeCard" type="Panel"]
+custom_minimum_size = Vector2(140, 120)
+mouse_filter = 0
+theme_override_styles/panel = SubResource("StyleBoxFlat_card")
+script = ExtResource("1_card")
+
+[node name="Icon" type="ColorRect" parent="."]
+layout_mode = 0
+offset_left = 50.0
+offset_top = 8.0
+offset_right = 90.0
+offset_bottom = 40.0
+color = Color(0.2, 0.8, 1, 1)
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 44.0
+offset_right = 132.0
+offset_bottom = 64.0
+theme_override_font_sizes/font_size = 14
+text = "攻速"
+horizontal_alignment = 1
+
+[node name="DescLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 64.0
+offset_right = 132.0
+offset_bottom = 96.0
+theme_override_font_sizes/font_size = 11
+text = "+10%"
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="KeyLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 96.0
+offset_right = 132.0
+offset_bottom = 116.0
+theme_override_font_sizes/font_size = 12
+text = "1"
+horizontal_alignment = 1

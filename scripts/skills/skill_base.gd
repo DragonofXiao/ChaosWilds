@@ -10,7 +10,8 @@ var is_ready: bool = true
 var player: Player
 
 func _ready():
-	skill_data = DataManager.skills.get(skill_id, {})
+	var base_data: Dictionary = DataManager.skills.get(skill_id, {})
+	skill_data = base_data.duplicate(true)
 	
 func set_player(p: Player):
 	player = p

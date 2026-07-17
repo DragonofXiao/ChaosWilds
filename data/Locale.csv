@@ -25,3 +25,15 @@ setting_controls,键位绑定,Key Binding
 quality_low,低,Low
 quality_medium,中,Medium
 quality_high,高,High
+upgrade_title,选择升级,Choose Upgrade
+floor,层,Floor
+tutorial_welcome,🎮 WASD移动 | 自动攻击 | Q/E/R/空格释放技能,🎮 WASD Move | Auto Attack | Q/E/R/Space Skills
+tutorial_first_kill,⚔️ 击杀成功！继续战斗直到击杀100只史莱姆,⚔️ Kill successful! Fight until 100 slimes killed
+upgrade_desc_attack_speed,普攻攻速,Attack Speed
+upgrade_desc_attack_damage,普攻伤害,Attack Damage
+upgrade_desc_skill_damage,技能伤害,Skill Damage
+upgrade_desc_cooldown,冷却速度,Cooldown Speed
+parts_title,当前部位,Parts
+attack_type_fire,火焰普攻,Fire Attack
+attack_type_ice,冰霜普攻,Ice Attack
+attack_type_physical,物理普攻,Physical Attack

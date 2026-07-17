@@ -24,6 +24,8 @@ config/icon="res://icon.svg"
 DataManager="*res://scripts/autoload/data_manager.gd"
 Localization="*res://scripts/autoload/localization.gd"
 EventBus="*uid://bjt38gilv6ary"
+SettingsManager="*uid://ba42b2mu7wswf"
+_mcp_game_helper="*res://addons/godot_ai/runtime/game_helper.gd"
 
 [display]
 
@@ -32,6 +34,10 @@ window/size/viewport_height=768
 window/size/window_width_override=1024
 window/size/window_height_override=768
 window/stretch/mode="canvas_items"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/godot_ai/plugin.cfg")
 
 [global_group]
 

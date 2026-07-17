@@ -187,10 +187,21 @@ func load_locale():
 	file.close()
 	print("Locale: 加载 ", locale.size(), " 条记录")
 
-func get_skills_by_team(team_id: int) -> Array:
-	var result = []
+func get_body_parts() -> Array:
+	return body_parts.values()
+
+func get_skill_by_part(part_id: int) -> Dictionary:
 	for skill in skills.values():
-		if skill.get("element", "fire") == ("fire" if team_id == 1 else "ice"):
+		if skill.get("part_id", 0) == part_id:
+			return skill
+	return {}
+
+func get_skills_by_team(team_id: int) -> Array:
+	var result: Array = []
+	for skill in skills.values():
+		var part_id: int = skill.get("part_id", 0)
+		var part: Dictionary = body_parts.get(part_id, {})
+		if part.get("team_id", 0) == team_id:
 			result.append(skill)
 	return result
 
